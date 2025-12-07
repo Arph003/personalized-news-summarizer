@@ -43,34 +43,35 @@ personalized-news-summarizer/
 ├── requirements.txt          # Python dependencies
 ├── test_summary.py           # Local debugging script for summarization
 └── .gitignore                # Ignore venv, IDE files, etc.
+```
 
-4. Setup & Installation
-bash
-Copy code
-# 1. Clone the repository
+## 4. Setup & Installation
+
+1. Clone the repository
 git clone https://github.com/Arph003/personalized-news-summarizer.git
+
 cd personalized-news-summarizer
 
-# 2. Create and activate a virtual environment
+2. Create and activate a virtual environment
 python3 -m venv venv
 source venv/bin/activate   # On macOS / Linux
-# .\venv\Scripts\activate  # On Windows (if needed)
+.\venv\Scripts\activate  # On Windows (if needed)
 
-# 3. Install dependencies
+3. Install dependencies
 pip install -r requirements.txt
-5. Running the Application
+
+## 5. Running the Application
+   
 5.1 Start the Flask backend
-bash
-Copy code
 cd /path/to/personalized-news-summarizer
 source venv/bin/activate
 python run.py
-You should see something like:
 
-text
-Copy code
+You should see something like:
  * Running on http://127.0.0.1:5000
+
 5.2 Open the web UI
+
 Open app/frontend/index.html in a browser, or
 
 Use a simple static file server if needed.
@@ -95,32 +96,29 @@ Evaluation metrics (ROUGE-1/2/Lsum, BERTScore)
 
 Truncated original text
 
-6. API Endpoints
-The backend exposes a small JSON API:
+<img width="1101" height="788" alt="website_demo" src="https://github.com/user-attachments/assets/8a05be08-bb1c-44dd-993f-c2d4da6daf7a" />
 
+## 6. API Endpoints
+
+The backend exposes a small JSON API:
 GET /api/health
+
 Health check.
 
 Response:
-
-json
-Copy code
 { "status": "ok" }
+
 POST /api/summarize
+
 Generate a summary and evaluation for a given article.
 
 Request body:
-
-json
-Copy code
 {
   "url": "https://www.ibm.com/think/topics/foundation-models"
   // or: "text": "raw article text ..."
 }
-Response (simplified):
 
-json
-Copy code
+Response (simplified):
 {
   "success": true,
   "source": {
@@ -146,7 +144,9 @@ Copy code
     "summary_length": 265
   }
 }
-7. Evaluation Details
+
+## 7. Evaluation Details
+
 The system currently supports:
 
 ROUGE-1, ROUGE-2, ROUGE-Lsum (F1 / P / R)
@@ -163,14 +163,16 @@ Length/compression statistics
 
 These metrics are surfaced in the UI to increase transparency of the summarization quality.
 
-8. Demo Video & Report
+## 8. Demo Video & Report
+
 Demo Video (≤ 5 minutes): [link to be added]
 
 Project Report (PDF): [link to be added]
 
 Both links will be added here and in the course submission portal.
 
-9. Team
+## 9. Team
+
 Zhiqi Li
 
 Yuan Tian
