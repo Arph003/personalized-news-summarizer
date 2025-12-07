@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalized News Summarizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-container">
+    <header class="app-header">
+        <h1>Personalized News Summarizer</h1>
+        <p>Paste a news article URL or raw text and get an AI-generated summary.</p>
+    </header>
+
+    <main class="app-main">
+        <section class="input-section">
+            <h2>Input</h2>
+            <label for="url-input" class="field-label">Article URL (optional):</label>
+            <input id="url-input" type="text" placeholder="https://example.com/news-article" />
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <label for="text-input" class="field-label">Raw Text (optional):</label>
+            <textarea id="text-input" rows="8" placeholder="Paste article text here if you do not want to use a URL."></textarea>
+
+            <button id="summarize-btn">Summarize</button>
+            <p class="hint">At least one of URL or raw text is required.</p>
+
+            <div id="status-message" class="status-message"></div>
+        </section>
+
+        <section class="output-section">
+            <h2>Result</h2>
+
+            <div id="source-info" class="card hidden">
+                <h3>Source</h3>
+                <p><strong>Title:</strong> <span id="source-title"></span></p>
+                <p><strong>Domain:</strong> <span id="source-domain"></span></p>
+                <p><strong>URL:</strong> <a id="source-url" href="#" target="_blank" rel="noopener noreferrer"></a></p>
+            </div>
+
+            <div id="summary-card" class="card hidden">
+                <h3>Summary</h3>
+                <pre id="summary-text"></pre>
+            </div>
+
+            <div id="meta-card" class="card hidden">
+                <h3>Meta Information</h3>
+                <p><strong>Original length:</strong> <span id="meta-original-length"></span></p>
+                <p><strong>Summary length:</strong> <span id="meta-summary-length"></span></p>
+                <p><strong>Compression ratio:</strong> <span id="meta-compression-ratio"></span></p>
+            </div>
+
+            <div id="evaluation-card" class="card hidden">
+                <h3>Evaluation</h3>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <h4>ROUGE-1 (F1)</h4>
+                        <p id="eval-rouge1-f1" class="metric-main"></p>
+                        <p id="eval-rouge1-pr" class="metric-sub"></p>
+                    </div>
+                    <div class="metric-item">
+                        <h4>ROUGE-2 (F1)</h4>
+                        <p id="eval-rouge2-f1" class="metric-main"></p>
+                        <p id="eval-rouge2-pr" class="metric-sub"></p>
+                    </div>
+                    <div class="metric-item">
+                        <h4>ROUGE-Lsum (F1)</h4>
+                        <p id="eval-rougeL-f1" class="metric-main"></p>
+                        <p id="eval-rougeL-pr" class="metric-sub"></p>
+                    </div>
+                    <div class="metric-item">
+                         <h4>BERTScore (F1)</h4>
+                        <p id="eval-bertscore-f1" class="metric-main"></p>
+                         <p id="eval-bertscore-pr" class="metric-sub"></p>
+                    </div>
+                    <div class="metric-item">
+                        <h4>Word counts</h4>
+                        <p id="eval-word-counts" class="metric-main"></p>
+                        <p class="metric-sub">original / summary</p>
+                    </div>
+                    <div class="metric-item">
+                        <h4>Vocab coverage</h4>
+                        <p id="eval-vocab-coverage" class="metric-main"></p>
+                        <p class="metric-sub">summary vocab in article</p>
+                    </div>
+                    <div class="metric-item">
+                        <h4>Runtime</h4>
+                        <p id="eval-runtime" class="metric-main"></p>
+                        <p class="metric-sub">generation time (ms)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="original-card" class="card collapsible hidden">
+                <div class="collapsible-header">
+                    <h3>Original Text (truncated)</h3>
+                    <button id="toggle-original-btn" class="toggle-btn">Show</button>
+                </div>
+                <pre id="original-text"></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>Backend: Flask + Transformers | Frontend: HTML/CSS/JS | Power by: Zhiqi Li & Yuan Tian</p>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
