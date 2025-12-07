@@ -167,7 +167,7 @@ These metrics are surfaced in the UI to increase transparency of the summarizati
 
 Demo Video (≤ 5 minutes): [link to be added]
 
-Project Report (PDF): [link to be added]
+Project Report (PDF): https://github.com/Arph003/personalized-news-summarizer/blob/main/Final_Report.pdf
 
 Both links will be added here and in the course submission portal.
 
