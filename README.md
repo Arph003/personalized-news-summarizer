@@ -2,60 +2,177 @@
 
 ## 1. Project Overview
 
-The **Personalized News Summarizer** is a web-based application that helps users quickly understand long news articles.
-Given a URL to an online article, the system:
+This project implements a web-based **Personalized News Summarizer**.  
+Users paste a news article URL or raw text, and the system:
 
-1. Fetches and cleans the article text (web scraping).
-2. Generates an abstractive summary using a pre-trained transformer model (T5-small).
-3. Evaluates the summary with automatic metrics (ROUGE and BERTScore).
-4. Displays the original article, summary, and evaluation results in a clean web interface.
+1. Fetches and cleans the article content.
+2. Generates an abstractive summary using a pre-trained transformer model.
+3. Automatically evaluates the summary quality with ROUGE and BERTScore.
+4. Displays all results in a clean, browser-based UI.
 
-The goal is to make real-world news consumption faster, more transparent, and more user-centric by combining modern NLP models with a lightweight, explainable evaluation pipeline.
+The goal is to help users quickly digest long news articles while keeping key information and providing transparent summary quality metrics.
 
----
+## 2. Tech Stack
 
-## 2. Features
+- **Backend:** Python, Flask  
+- **NLP Models:** Hugging Face `transformers` (T5 / PEGASUS-style models)  
+- **Scraping:** `requests`, `BeautifulSoup`  
+- **Evaluation:** `rouge-score`, `bert-score`  
+- **Frontend:** HTML, CSS, vanilla JavaScript  
+- **Environment:** Python virtual environment (`venv`), tested on macOS
 
-- 📰 **URL-based article ingestion** – Paste any supported news URL and fetch the main article content.
-- ✂️ **Abstractive summarization** – Generate concise summaries using a T5-small transformer model.
-- 📊 **Automatic evaluation** – Compute ROUGE-1 / ROUGE-2 / ROUGE-L and BERTScore to assess summary quality.
-- 📉 **Extra analytics** – Show compression ratio, word counts, vocabulary coverage, and runtime.
-- 🌐 **Web-based UI** – Minimal, responsive interface for entering URLs and viewing results.
-- 🧩 **Modular design** – Clear separation between scraping, summarization, evaluation, and frontend.
-
----
-
-## 3. Tech Stack
-
-- **Backend**
-  - Python 3.12
-  - Flask (REST API)
-  - Requests, BeautifulSoup4 (web scraping)
-  - Hugging Face Transformers (T5-small)
-  - PyTorch (model execution, MPS-enabled on macOS)
-  - rouge-score, bert-score (evaluation)
-
-- **Frontend**
-  - HTML / CSS / JavaScript
-  - Fetch-based calls to the Flask API
-
----
-
-## 4. Project Structure
+## 3. Project Structure
 
 ```text
 personalized-news-summarizer/
+│
 ├── app/
-│   ├── __init__.py
 │   ├── backend/
 │   │   ├── __init__.py
-│   │   ├── scraper.py        # Fetch and clean article text from a URL
-│   │   ├── summarizer.py     # T5-small summarization pipeline
-│   │   └── evaluation.py     # ROUGE + BERTScore + extra metrics
+│   │   ├── api.py            # Flask API endpoints (health, summarize)
+│   │   ├── scraper.py        # Article fetching and HTML parsing
+│   │   ├── summarizer.py     # Transformer-based summarization pipeline
+│   │   └── evaluation.py     # ROUGE and BERTScore evaluation
+│   │
 │   └── frontend/
-│       ├── index.html        # Main UI page
-│       ├── script.js         # Frontend logic and API calls
-│       └── styles.css        # (If present) Styling for the UI
-├── requirements.txt          # Python dependencies
+│       ├── index.html        # Single-page UI
+│       ├── script.js         # Frontend logic & API calls
+│       └── style.css         # Basic styling
+│
 ├── run.py                    # Flask app entry point
-└── README.md                 # Project documentation (this file)
+├── requirements.txt          # Python dependencies
+├── test_summary.py           # Local debugging script for summarization
+└── .gitignore                # Ignore venv, IDE files, etc.
+
+4. Setup & Installation
+bash
+Copy code
+# 1. Clone the repository
+git clone https://github.com/Arph003/personalized-news-summarizer.git
+cd personalized-news-summarizer
+
+# 2. Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate   # On macOS / Linux
+# .\venv\Scripts\activate  # On Windows (if needed)
+
+# 3. Install dependencies
+pip install -r requirements.txt
+5. Running the Application
+5.1 Start the Flask backend
+bash
+Copy code
+cd /path/to/personalized-news-summarizer
+source venv/bin/activate
+python run.py
+You should see something like:
+
+text
+Copy code
+ * Running on http://127.0.0.1:5000
+5.2 Open the web UI
+Open app/frontend/index.html in a browser, or
+
+Use a simple static file server if needed.
+
+In the UI:
+
+Paste a news article URL into the "Article URL" field, or
+
+Paste raw article text into the "Raw Text" field.
+
+Click Summarize.
+
+The right panel will display:
+
+Source metadata (title, domain, URL)
+
+Generated summary
+
+Meta information (lengths, compression ratio)
+
+Evaluation metrics (ROUGE-1/2/Lsum, BERTScore)
+
+Truncated original text
+
+6. API Endpoints
+The backend exposes a small JSON API:
+
+GET /api/health
+Health check.
+
+Response:
+
+json
+Copy code
+{ "status": "ok" }
+POST /api/summarize
+Generate a summary and evaluation for a given article.
+
+Request body:
+
+json
+Copy code
+{
+  "url": "https://www.ibm.com/think/topics/foundation-models"
+  // or: "text": "raw article text ..."
+}
+Response (simplified):
+
+json
+Copy code
+{
+  "success": true,
+  "source": {
+    "title": "...",
+    "domain": "...",
+    "url": "..."
+  },
+  "content": {
+    "original_text": "...",
+    "summary": "..."
+  },
+  "evaluation": {
+    "rouge1": { "f1": 0.0437, "precision": 1.0, "recall": 0.0223 },
+    "rouge2": { ... },
+    "rougeLsum": { ... },
+    "bertscore": { "f1": 0.40, "precision": 0.76, "recall": 0.20 },
+    "runtime_ms": 4400,
+    "word_counts": { "original": 1643, "summary": 41 }
+  },
+  "meta": {
+    "compression_ratio": 0.023,
+    "original_length": 11364,
+    "summary_length": 265
+  }
+}
+7. Evaluation Details
+The system currently supports:
+
+ROUGE-1, ROUGE-2, ROUGE-Lsum (F1 / P / R)
+
+BERTScore (F1 / P / R) with a standard multilingual encoder
+
+Evaluation is performed against the original article text to estimate:
+
+Content overlap (ROUGE)
+
+Semantic similarity (BERTScore)
+
+Length/compression statistics
+
+These metrics are surfaced in the UI to increase transparency of the summarization quality.
+
+8. Demo Video & Report
+Demo Video (≤ 5 minutes): [link to be added]
+
+Project Report (PDF): [link to be added]
+
+Both links will be added here and in the course submission portal.
+
+9. Team
+Zhiqi Li
+
+Yuan Tian
+
+(Team name: GoodTeam)
