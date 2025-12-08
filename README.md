@@ -163,11 +163,13 @@ Length/compression statistics
 
 These metrics are surfaced in the UI to increase transparency of the summarization quality.
 
-## 8. Demo Video & Report
+## 8. Demo Video & Report & Website
 
-Demo Video (≤ 5 minutes): [link to be added]
+Demo Video (≤ 5 minutes): https://youtu.be/PIs8AA1-tmQ
 
-Project Report (PDF): https://github.com/Arph003/personalized-news-summarizer/blob/main/Final_Report.pdf
+Project Report (PDF): https://github.com/Arph003/personalized-news-summarizer/blob/main/Final_Report.pdf 
+
+Website: https://arph003.github.io/personalized-news-summarizer/
 
 Both links will be added here and in the course submission portal.
 
